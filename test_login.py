@@ -1,21 +1,25 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 def test_login_exitoso():
     driver= webdriver.Firefox()
-    
+    driver.implicitly_wait(10)
+    espera = WebDriverWait(driver, 10)
+
     try:
         driver.get("https://www.saucedemo.com/")
 
         usuario = driver.find_element(By.ID, "user-name")
         password = driver.find_element(By.ID, "password")
-        boton = driver.find_element(By.ID,"login-button")
 
+        boton_login= espera.until(EC.element_to_be_clickable((By.ID,"login-button")))
 
         usuario.send_keys("standard_user")
         password.send_keys("secret_sauce")
-        boton.click()
+        boton_login.click()
 
         assert "/inventory.html" in driver.current_url
 
@@ -26,7 +30,6 @@ def test_login_exitoso():
             driver.quit()
 
 
-#verificar nombre de éstaña = dirver.title
-#verifficar la existencia de un producto  / cantidad de productos 
+
 #
 
